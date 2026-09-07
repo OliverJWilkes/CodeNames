@@ -1,0 +1,47 @@
+:root {
+  --red: #d64545; --blue: #3b74d6; --neutral: #d9c9a3; --assassin: #222;
+  --bg: #f6f4ef; --card: #fff; --text: #222; --muted: #666;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #fff; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 6px; }
+h1 { font-size: 1.2rem; margin: 0; }
+section { max-width: 720px; margin: 0 auto; padding: 14px; }
+label { display: block; margin: 10px 0 4px; font-weight: 600; }
+input { width: 100%; font-size: 1.1rem; padding: 10px; border: 1px solid #bbb; border-radius: 8px; }
+button { font-size: 1rem; padding: 10px 14px; border-radius: 8px; border: 1px solid #999; background: #fff; cursor: pointer; margin: 6px 0; width: 100%; }
+button.primary { background: #2e7d32; color: #fff; border-color: #2e7d32; font-weight: 600; }
+button:disabled { opacity: .5; cursor: default; }
+.or { text-align: center; color: var(--muted); margin: 10px 0; }
+.muted { color: var(--muted); }
+.teams { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.team { padding: 10px; border-radius: 10px; color: #fff; }
+.team.red { background: var(--red); } .team.blue { background: var(--blue); }
+.team h2 { margin: 0 0 6px; font-size: 1.05rem; }
+.team button { background: rgba(255,255,255,.9); color: #222; border: none; }
+.team ul { list-style: none; padding: 0; margin: 6px 0 0; font-size: .95rem; }
+#status { font-size: 1.1rem; font-weight: 600; text-align: center; padding: 8px; border-radius: 8px; background: #fff; margin-bottom: 8px; }
+#status.red { background: var(--red); color: #fff; } #status.blue { background: var(--blue); color: #fff; }
+.scores { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+.score.red { color: var(--red); } .score.blue { color: var(--blue); }
+#clueBox { text-align: center; font-size: 1.2rem; min-height: 1.6em; margin-bottom: 8px; }
+#board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.tile { position: relative; aspect-ratio: 1.3; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px; border-radius: 8px; background: var(--card); border: 2px solid #ccc; font-weight: 600; font-size: clamp(.6rem, 2.6vw, 1rem); word-break: break-word; user-select: none; }
+.tile.clickable { cursor: pointer; border-color: #888; }
+.tile.clickable:active { transform: scale(.96); }
+.tile.hint-red { border-color: var(--red); box-shadow: inset 0 0 0 3px var(--red); }
+.tile.hint-blue { border-color: var(--blue); box-shadow: inset 0 0 0 3px var(--blue); }
+.tile.hint-neutral { border-color: #b8a877; background: #f3ecd9; }
+.tile.hint-assassin { border-color: #000; box-shadow: inset 0 0 0 3px #000; }
+.tile.revealed { color: #fff; opacity: .9; }
+.tile.revealed.red { background: var(--red); border-color: var(--red); }
+.tile.revealed.blue { background: var(--blue); border-color: var(--blue); }
+.tile.revealed.neutral { background: var(--neutral); color: #333; border-color: var(--neutral); }
+.tile.revealed.assassin { background: var(--assassin); border-color: var(--assassin); }
+#clueForm { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-top: 12px; }
+#clueForm button { grid-column: 1 / -1; }
+#guessControls { margin-top: 12px; }
+#overBox { text-align: center; margin-top: 12px; padding: 12px; background: #fff; border-radius: 10px; }
+#toast { position: fixed; left: 50%; top: 12px; transform: translateX(-50%); background: #b00020; color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 10; max-width: 90vw; }
+details { margin-top: 14px; } #log { font-size: .9rem; padding-left: 18px; }

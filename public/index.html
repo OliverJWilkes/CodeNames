@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Codenames</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%2745%27 height=%2745%27 x=%275%27 y=%275%27 rx=%278%27 fill=%27%23d64545%27/%3E%3Crect width=%2745%27 height=%2745%27 x=%2750%27 y=%275%27 rx=%278%27 fill=%27%233b74d6%27/%3E%3Crect width=%2745%27 height=%2745%27 x=%275%27 y=%2750%27 rx=%278%27 fill=%27%233b74d6%27/%3E%3Crect width=%2745%27 height=%2745%27 x=%2750%27 y=%2750%27 rx=%278%27 fill=%27%23222%27/%3E%3C/svg%3E">
+</head>
+<body>
+<header>
+  <h1>Family Codenames</h1>
+  <div id="roomInfo" hidden>Room code: <strong id="roomCode"></strong></div>
+</header>
+
+<div id="toast" hidden></div>
+
+<!-- Screen 1: enter name, create or join -->
+<section id="lobby">
+  <label>Your name <input id="name" maxlength="20" autocomplete="off" placeholder="e.g. Grandma"></label>
+  <button id="createBtn" class="primary">Create a new game</button>
+  <div class="or">or</div>
+  <label>Game code <input id="code" maxlength="4" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase"></label>
+  <button id="joinBtn">Join game</button>
+</section>
+
+<!-- Screen 2: pick team and role -->
+<section id="setup" hidden>
+  <p>Share the room code with everyone. Each team needs one <b>teller</b> (sees the colours and gives clues) and one <b>guesser</b> (picks the words).</p>
+  <div class="teams">
+    <div class="team red">
+      <h2>Red team</h2>
+      <button data-team="red" data-role="teller">Be Red teller</button>
+      <button data-team="red" data-role="guesser">Be Red guesser</button>
+      <ul id="redList"></ul>
+    </div>
+    <div class="team blue">
+      <h2>Blue team</h2>
+      <button data-team="blue" data-role="teller">Be Blue teller</button>
+      <button data-team="blue" data-role="guesser">Be Blue guesser</button>
+      <ul id="blueList"></ul>
+    </div>
+  </div>
+  <p>Not yet on a team: <span id="unassigned"></span></p>
+  <button id="startBtn" class="primary" hidden>Start game</button>
+  <p id="waitHost" class="muted" hidden>Waiting for the host to start the game…</p>
+</section>
+
+<!-- Screen 3: the game -->
+<section id="game" hidden>
+  <div id="status"></div>
+  <div class="scores">
+    <span class="score red">Red left: <b id="redLeft"></b> · blanks hit <b id="redNeutral"></b>/3</span>
+    <span class="score blue">Blue left: <b id="blueLeft"></b> · blanks hit <b id="blueNeutral"></b>/3</span>
+  </div>
+  <div id="clueBox"></div>
+  <div id="board"></div>
+  <div id="clueForm" hidden>
+    <input id="clueWord" placeholder="One-word clue" autocomplete="off">
+    <input id="clueCount" type="number" min="0" max="9" value="1" inputmode="numeric">
+    <button id="clueBtn" class="primary">Give clue</button>
+  </div>
+  <div id="guessControls" hidden>
+    <button id="passBtn">End turn</button>
+  </div>
+  <div id="overBox" hidden>
+    <h2 id="overTitle"></h2>
+    <p id="overReason"></p>
+    <button id="againBtn" class="primary" hidden>Play again</button>
+  </div>
+  <details><summary>Game log</summary><ul id="log"></ul></details>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
