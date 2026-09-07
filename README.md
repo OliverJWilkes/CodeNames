@@ -30,22 +30,19 @@ Run the rule tests with `npm test`.
 
 ## Put it on the internet (Azure)
 
-The simplest route is an **Azure App Service** (Azure's managed web hosting) running the container
-built from the `Dockerfile` in this repo. App Service supports WebSockets, which the game uses for
-real-time updates. Using the Azure CLI:
+Quickest route: an **Azure App Service** (Azure's managed web hosting). You need the
+[Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed, then:
 
 ```
-az group create -n codenames-rg -l uksouth
-az acr create -n <uniqueRegistryName> -g codenames-rg --sku Basic --admin-enabled true
-az acr build -r <uniqueRegistryName> -t codenames:latest .
-az appservice plan create -n codenames-plan -g codenames-rg --is-linux --sku B1
-az webapp create -n <uniqueAppName> -g codenames-rg -p codenames-plan \
-  -i <uniqueRegistryName>.azurecr.io/codenames:latest
-az webapp config set -n <uniqueAppName> -g codenames-rg --web-sockets-enabled true
-az webapp config appsettings set -n <uniqueAppName> -g codenames-rg --settings WEBSITES_PORT=8080
+az login
+./deploy.sh <unique-app-name>
 ```
 
-Then share `https://<uniqueAppName>.azurewebsites.net` with the family.
+The name must be unique across all of Azure (for example `wilkes-codenames`). The script creates
+a resource group, a B1 Linux plan and the web app, uploads the code, and turns on WebSockets.
+Share `https://<unique-app-name>.azurewebsites.net` with the family.
+
+If you prefer containers, the `Dockerfile` in this repo also works on App Service or Container Apps.
 
 Notes:
 
