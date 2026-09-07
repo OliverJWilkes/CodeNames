@@ -19,16 +19,15 @@ function shuffle(arr, rng = Math.random) {
 }
 
 /**
- * Build a fresh board: 25 words, 9 for the starting team, 8 for the other,
- * 7 blank (neutral) and 1 assassin.
+ * Build a fresh board: 25 words, 9 red, 9 blue, 6 blank (neutral) and 1 assassin.
  */
 export function createBoard(rng = Math.random, wordBank = WORDS) {
   const startingTeam = rng() < 0.5 ? "red" : "blue";
   const words = shuffle(wordBank, rng).slice(0, 25);
   const types = [
-    ...Array(9).fill(startingTeam),
-    ...Array(8).fill(otherTeam(startingTeam)),
-    ...Array(7).fill("neutral"),
+    ...Array(9).fill("red"),
+    ...Array(9).fill("blue"),
+    ...Array(6).fill("neutral"),
     "assassin",
   ];
   const shuffledTypes = shuffle(types, rng);

@@ -5,8 +5,7 @@ Everyone joins the same room with a four-letter code; the server keeps the game 
 
 ## How to play
 
-- 25 words sit in a 5 x 5 grid. Secretly, 9 belong to the starting team, 8 to the other team,
-  7 are blank, and 1 is the **assassin**.
+- 25 words sit in a 5 x 5 grid. Secretly, 9 are red, 9 are blue, 6 are blank, and 1 is the **assassin**.
 - Each team has a **teller** and a **guesser**. The teller sees the colours; the guesser does not.
 - The starting team is chosen at random.
 - On your turn the teller types a **one-word clue** and a **number** (how many words it links to).

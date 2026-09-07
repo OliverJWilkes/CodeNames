@@ -17,9 +17,9 @@ test("board has correct distribution", () => {
   const counts = {};
   for (const t of g.tiles) counts[t.type] = (counts[t.type] || 0) + 1;
   assert.equal(g.tiles.length, 25);
-  assert.equal(counts[g.startingTeam], 9);
-  assert.equal(counts[otherTeam(g.startingTeam)], 8);
-  assert.equal(counts.neutral, 7);
+  assert.equal(counts.red, 9);
+  assert.equal(counts.blue, 9);
+  assert.equal(counts.neutral, 6);
   assert.equal(counts.assassin, 1);
   assert.equal(new Set(g.tiles.map((t) => t.word)).size, 25);
 });
