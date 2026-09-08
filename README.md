@@ -11,10 +11,9 @@ Everyone joins the same room with a four-letter code; the server keeps the game 
 - The starting team is chosen at random.
 - On your turn the teller types a **one-word clue** and a **number** (how many words it links to).
   The clue cannot be a word on the board.
-- The guesser taps words and gets exactly that many guesses. A correct colour lets them keep going
-  until the guesses run out.
-  Picking the other team's colour or a blank ends the turn (and the other team's word counts for them).
-  The guesser can also press **End turn** early.
+- The guesser taps words and gets exactly that many guesses. A wrong guess does **not** end the turn:
+  they keep going until the guesses run out, or they press **End turn** to stop early.
+  Revealing the other team's word still counts for that team, and a blank counts towards your three.
 - **Win** by revealing all of your colour, or when the other team reveals the assassin.
 - **Lose** if your team reveals the assassin, or reveals **3 blank tiles** over the course of the game.
 

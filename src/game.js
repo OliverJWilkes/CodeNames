@@ -107,20 +107,18 @@ export function guess(game, team, index) {
       endGame(game, otherTeam(team), "neutrals");
       return;
     }
-    endTurn(game);
-    return;
-  }
-  // Coloured tile: check whether either team has now cleared their set.
-  for (const t of TEAMS) {
-    if (remaining(game, t) === 0) {
-      endGame(game, t, "cleared");
-      return;
+  } else {
+    // A coloured tile. Either team may have just cleared their set,
+    // including when a team reveals the other team's last word.
+    for (const t of TEAMS) {
+      if (remaining(game, t) === 0) {
+        endGame(game, t, "cleared");
+        return;
+      }
     }
   }
-  if (tile.type !== team) {
-    endTurn(game); // Helped the other team; turn is over.
-    return;
-  }
+  // A wrong guess does not end the turn. The team keeps going until they have
+  // used the number of guesses the teller gave them, or they choose to stop.
   game.clue.guessesLeft -= 1;
   if (game.clue.guessesLeft <= 0) endTurn(game);
 }

@@ -35,15 +35,18 @@ test("clue validation", () => {
   assert.equal(g.clue.guessesLeft, 2); // exactly the number stated, no bonus guess
 });
 
-test("correct guesses continue, wrong colour ends turn", () => {
+test("a wrong guess does not end the turn; guesses run out instead", () => {
   const g = createGame(seeded(3));
   const team = g.turn;
-  giveClue(g, team, "ok", 2);
-  guess(g, team, idx(g, team));
-  assert.equal(g.turn, team);
+  giveClue(g, team, "ok", 3);
+  guess(g, team, idx(g, otherTeam(team))); // wrong: helps the other team
+  assert.equal(g.turn, team, "still their turn after a wrong colour");
+  assert.equal(g.clue.guessesLeft, 2);
+  guess(g, team, idx(g, "neutral")); // wrong: a blank
+  assert.equal(g.turn, team, "still their turn after a blank");
   assert.equal(g.clue.guessesLeft, 1);
-  guess(g, team, idx(g, otherTeam(team)));
-  assert.equal(g.turn, otherTeam(team));
+  guess(g, team, idx(g, team)); // right
+  assert.equal(g.turn, otherTeam(team), "turn ends only when guesses run out");
   assert.equal(g.phase, "clue");
 });
 
@@ -56,6 +59,19 @@ test("turn ends once the stated number of guesses is used", () => {
   guess(g, team, idx(g, team));
   assert.equal(g.turn, otherTeam(team), "turn ends after the second of two");
   assert.equal(g.phase, "clue");
+});
+
+test("three blanks still loses, even within one turn", () => {
+  const g = createGame(seeded(12));
+  const team = g.turn;
+  giveClue(g, team, "risky", 5);
+  guess(g, team, idx(g, "neutral"));
+  guess(g, team, idx(g, "neutral"));
+  assert.equal(g.phase, "guess", "two blanks is survivable");
+  guess(g, team, idx(g, "neutral"));
+  assert.equal(g.phase, "over");
+  assert.equal(g.winner, otherTeam(team));
+  assert.equal(g.reason, "neutrals");
 });
 
 test("assassin loses immediately", () => {
@@ -78,7 +94,7 @@ test("three neutrals loses", () => {
     }
     assert.equal(g.turn, team);
     giveClue(g, team, "ok" + i, 1);
-    guess(g, team, idx(g, "neutral"));
+    guess(g, team, idx(g, "neutral")); // one blank per turn, across three turns
   }
   assert.equal(g.phase, "over");
   assert.equal(g.winner, otherTeam(team));
