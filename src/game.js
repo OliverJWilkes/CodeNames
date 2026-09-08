@@ -80,8 +80,9 @@ export function giveClue(game, team, word, count) {
   if (onBoard) throw new Error("Clue cannot be a word on the board.");
   const n = Number(count);
   if (!Number.isInteger(n) || n < 0 || n > 9) throw new Error("Number must be 0 to 9.");
-  // Guesser gets count + 1 guesses; 0 means unlimited.
-  game.clue = { word: clean, count: n, guessesLeft: n === 0 ? Infinity : n + 1 };
+  // The guesser gets exactly the number of guesses the teller stated.
+  // 0 is the all-in option: guess freely until you get one wrong.
+  game.clue = { word: clean, count: n, guessesLeft: n === 0 ? Infinity : n };
   game.phase = "guess";
   game.log.push({ type: "clue", team, word: clean, count: n });
 }

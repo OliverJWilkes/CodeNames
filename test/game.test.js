@@ -32,7 +32,7 @@ test("clue validation", () => {
   assert.throws(() => giveClue(g, g.turn, "ok", 10), /0 to 9/);
   giveClue(g, g.turn, "ok", 2);
   assert.equal(g.phase, "guess");
-  assert.equal(g.clue.guessesLeft, 3);
+  assert.equal(g.clue.guessesLeft, 2); // exactly the number stated, no bonus guess
 });
 
 test("correct guesses continue, wrong colour ends turn", () => {
@@ -41,9 +41,20 @@ test("correct guesses continue, wrong colour ends turn", () => {
   giveClue(g, team, "ok", 2);
   guess(g, team, idx(g, team));
   assert.equal(g.turn, team);
-  assert.equal(g.clue.guessesLeft, 2);
+  assert.equal(g.clue.guessesLeft, 1);
   guess(g, team, idx(g, otherTeam(team)));
   assert.equal(g.turn, otherTeam(team));
+  assert.equal(g.phase, "clue");
+});
+
+test("turn ends once the stated number of guesses is used", () => {
+  const g = createGame(seeded(11));
+  const team = g.turn;
+  giveClue(g, team, "two", 2);
+  guess(g, team, idx(g, team));
+  assert.equal(g.turn, team, "still their turn after the first of two");
+  guess(g, team, idx(g, team));
+  assert.equal(g.turn, otherTeam(team), "turn ends after the second of two");
   assert.equal(g.phase, "clue");
 });
 

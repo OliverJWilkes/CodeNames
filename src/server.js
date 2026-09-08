@@ -89,6 +89,12 @@ io.on("connection", (socket) => {
     if (!room) throw new Error("Not in a room.");
     if (!TEAMS.includes(team) || !ROLES.includes(role)) throw new Error("Bad team or role.");
     if (room.game && room.game.phase !== "over") throw new Error("Cannot change seat mid-game.");
+    // One person per seat, so nobody can play both sides from two browser tabs.
+    for (const [id, p] of room.players) {
+      if (id !== socket.id && p.team === team && p.role === role) {
+        throw new Error(`${p.name} already has that seat.`);
+      }
+    }
     const me = room.players.get(socket.id);
     me.team = team;
     me.role = role;
