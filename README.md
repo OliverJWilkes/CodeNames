@@ -39,8 +39,20 @@ az login
 ```
 
 The name must be unique across all of Azure (for example `wilkes-codenames`). The script creates
-a resource group, a B1 Linux plan and the web app, uploads the code, and turns on WebSockets.
+a resource group, an App Service plan and the web app, then uploads the code.
 Share `https://<unique-app-name>.azurewebsites.net` with the family.
+
+It defaults to the **F1 free tier**, which needs no VM quota and so works on a new Azure trial
+subscription. F1 does not offer WebSockets, so the game falls back to HTTP long-polling; updates
+still arrive within a second, which is fine for a family game. On a pay-as-you-go subscription you
+can pass a region and tier for a faster, always-on app with WebSockets enabled:
+
+```
+./deploy.sh <unique-app-name> uksouth B1
+```
+
+If a region reports that it is not accepting new customers, try another, such as `northeurope`,
+`swedencentral` or `eastus`.
 
 If you prefer containers, the `Dockerfile` in this repo also works on App Service or Container Apps.
 
