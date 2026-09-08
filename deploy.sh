@@ -7,7 +7,7 @@ LOCATION="${2:-uksouth}"
 # F1 is the free tier and needs no VM quota, so it works on a new trial subscription.
 # Use B1 for a faster, always-on app once the subscription is upgraded to pay-as-you-go.
 SKU="${3:-F1}"
-RG="${APP}-rg"
+RG="${APP}-${LOCATION}-rg"
 PLAN="${APP}-plan"
 cd "$(dirname "$0")"
 
@@ -15,7 +15,7 @@ az account show -o none 2>/dev/null || { echo "Not logged in. Run: az login --us
 
 echo "Creating resources for $APP in $LOCATION ..."
 az group create -n "$RG" -l "$LOCATION" -o none
-az appservice plan create -n "$PLAN" -g "$RG" --is-linux --sku "$SKU" -o none
+az appservice plan create -n "$PLAN" -g "$RG" -l "$LOCATION" --is-linux --sku "$SKU" -o none
 az webapp create -n "$APP" -g "$RG" -p "$PLAN" --runtime "NODE:22-lts" -o none
 
 # One instance only, as game state is held in memory. WebSockets give the snappiest
